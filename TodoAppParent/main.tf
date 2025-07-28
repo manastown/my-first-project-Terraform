@@ -69,83 +69,83 @@ module "sql_server" {
 }
 
 
-module "sql_database" {
-  depends_on = [module.sql_server]
-  source = "../module/azurerm_sql_database"
+# module "sql_database" {
+#   depends_on = [module.sql_server]
+#   source = "../module/azurerm_sql_database"
 
-  sql_server_id                  ="/subscriptions/1ecb1540-18db-4ab8-9eac-659a71d4a5f7/resourceGroups/TodoAppResourceGroup/providers/Microsoft.Sql/servers/nimmiserversql"
-  sql_database_name              = "TodoAppDatabase"
-}
+#   sql_server_id                  ="/subscriptions/1ecb1540-18db-4ab8-9eac-659a71d4a5f7/resourceGroups/TodoAppResourceGroup/providers/Microsoft.Sql/servers/nimmiserversql"
+#   sql_database_name              = "TodoAppDatabase"
+# }
 
   
 
-module "virtual_machine_frontend" {
-  depends_on = [module.frontendsubnet, module.public_ip_frontend]
-  source                      = "../module/azurerm_virtual_machine"
-  resource_group_name         = "TodoAppResourceGroup"
-  resource_group_location     = "canada central"
-  virtual_machine_name        = "FrontendVM"
-  virtual_machine_size        = "Standard_B1s"
-  virtual_machine_os_disk_name    = "FrontendOSDisk"
-  virtual_machine_os_disk_caching = "ReadWrite"
-  image_publisher             = "Canonical"
-  image_offer                 = "0001-com-ubuntu-server-jammy"
-  image_sku                   = "22_04-lts-gen2"
-  image_version               = "latest"
-  network_interface_name      = "FrontendNIC"
-  location                    = "canada central"
-  subnet_name                 = "FrontendSubnet"
-  pip_name                    = "frontend_TodoAppPublicIP"
-  virtual_network_name        = "TodoAppVNet"
-  virtual_admin_username = "azureuser"
-  virtual_admin_password = "P@ssw0rd1234!"
-}
+# module "virtual_machine_frontend" {
+#   depends_on = [module.frontendsubnet, module.public_ip_frontend]
+#   source                      = "../module/azurerm_virtual_machine"
+#   resource_group_name         = "TodoAppResourceGroup"
+#   resource_group_location     = "canada central"
+#   virtual_machine_name        = "FrontendVM"
+#   virtual_machine_size        = "Standard_B1s"
+#   virtual_machine_os_disk_name    = "FrontendOSDisk"
+#   virtual_machine_os_disk_caching = "ReadWrite"
+#   image_publisher             = "Canonical"
+#   image_offer                 = "0001-com-ubuntu-server-jammy"
+#   image_sku                   = "22_04-lts-gen2"
+#   image_version               = "latest"
+#   network_interface_name      = "FrontendNIC"
+#   location                    = "canada central"
+#   subnet_name                 = "FrontendSubnet"
+#   pip_name                    = "frontend_TodoAppPublicIP"
+#   virtual_network_name        = "TodoAppVNet"
+#   virtual_admin_username = "azureuser"
+#   virtual_admin_password = "P@ssw0rd1234!"
+# }
 
 
-  module "virtual_machine_Backend" {
-  depends_on = [module.backendsubnet,module.public_ip_Backend]
-  source = "../module/azurerm_virtual_machine"
+#   module "virtual_machine_Backend" {
+#   depends_on = [module.backendsubnet,module.public_ip_Backend]
+#   source = "../module/azurerm_virtual_machine"
 
-  resource_group_name             = "TodoAppResourceGroup"
-  resource_group_location         = "canada central"
-  virtual_machine_name            = "BackendVM"
-  virtual_machine_size            = "Standard_B1s"
-  virtual_admin_username          = "azureuser"
-  virtual_admin_password          ="P@ssw0rd1234!"
-  virtual_machine_os_disk_name    = "BackendOSDisk"
-  virtual_machine_os_disk_caching = "ReadWrite"
-  image_publisher                 = "Canonical"
-  image_offer                     = "0001-com-ubuntu-server-jammy"
-  image_sku                       = "22_04-lts-gen2"
-  image_version                   = "latest"
-  network_interface_name          = "BackendNIC"
-  location                        = "canada central"
-  subnet_name                     = "BackendSubnet" # ye correct hona chahiye, not azurerm_subnet_name
-  pip_name                        = "Backend_TodoAppPublicIP" # ye correct hona chahiye, not azurerm_public_ip_name
-virtual_network_name              = "TodoAppVNet"
-}
+#   resource_group_name             = "TodoAppResourceGroup"
+#   resource_group_location         = "canada central"
+#   virtual_machine_name            = "BackendVM"
+#   virtual_machine_size            = "Standard_B1s"
+#   virtual_admin_username          = "azureuser"
+#   virtual_admin_password          ="P@ssw0rd1234!"
+#   virtual_machine_os_disk_name    = "BackendOSDisk"
+#   virtual_machine_os_disk_caching = "ReadWrite"
+#   image_publisher                 = "Canonical"
+#   image_offer                     = "0001-com-ubuntu-server-jammy"
+#   image_sku                       = "22_04-lts-gen2"
+#   image_version                   = "latest"
+#   network_interface_name          = "BackendNIC"
+#   location                        = "canada central"
+#   subnet_name                     = "BackendSubnet" # ye correct hona chahiye, not azurerm_subnet_name
+#   pip_name                        = "Backend_TodoAppPublicIP" # ye correct hona chahiye, not azurerm_public_ip_name
+# virtual_network_name              = "TodoAppVNet"
+# }
 
-module "key_vault" {
-  source = "../module/azurerm_key_vault"
+# module "key_vault" {
+#   source = "../module/azurerm_key_vault"
 
-  key_vault_name                = "devopskakhajana"
-  resource_group_name           = "TodoAppResourceGroup"
-  resource_group_location       = "canada central"
-}
+#   key_vault_name                = "devopskakhajana"
+#   resource_group_name           = "TodoAppResourceGroup"
+#   resource_group_location       = "canada central"
+# }
 
-module "Frontend_vm_username" {
-  depends_on = [module.key_vault]
-  source = "../module/azurerm_key_vault_secret"
+# module "Frontend_vm_username" {
+#   depends_on = [module.key_vault]
+#   source = "../module/azurerm_key_vault_secret"
 
-  key_vault_name         = "devopskakhajana"
-  resource_group_name    = "TodoAppResourceGroup"
+#   key_vault_name         = "devopskakhajana"
+#   resource_group_name    = "TodoAppResourceGroup"
 
-  frontend_username_name = "frontend-admin-username"
-  frontend_username_value = "azureuser"
+#   frontend_username_name = "frontend-admin-username"
+#   frontend_username_value = "azureuser"
 
-  frontend_password_name  = "frontend-admin-password"
-  frontend_password_value = "P@ssw0rd123!"   # Use a real password or get from var/secret
-}
+#   frontend_password_name  = "frontend-admin-password"
+#   frontend_password_value = "P@ssw0rd123!"   # Use a real password or get from var/secret
+# }
 
 
 
