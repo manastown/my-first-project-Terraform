@@ -4,7 +4,12 @@ module "resource_group" {
   azurerm_resource_group_name     = "TodoAppResourceGroup"
   azurerm_resource_group_location = "canada central"
 }
+# module "resource_group1" {
+#   source = "../module/azurerm_resource_group"
 
+#   azurerm_resource_group_name     = "TodoAppResourceGroup1"
+#   azurerm_resource_group_location = "central india"
+# }
 module "virtual_network" {
   depends_on = [module.resource_group]
   source = "../module/azurerm_virtual_network"
